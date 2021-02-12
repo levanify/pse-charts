@@ -1,0 +1,38 @@
+[
+  {
+    "year": "2016",
+    "total": 1900,
+    "Metro Manila": 733,
+    "Luzon": 813,
+    "Visayas": 233,
+    "Mindanao": 121,
+    "Others": 0
+  },
+  {
+    "year": "2017",
+    "total": 2032,
+    "Metro Manila": 640,
+    "Luzon": 695,
+    "Visayas": 230,
+    "Mindanao": 119,
+    "Others": 348
+  },
+  {
+    "year": "2018",
+    "total": 2328,
+    "Metro Manila": 690,
+    "Luzon": 734,
+    "Visayas": 243,
+    "Mindanao": 135,
+    "Others": 526
+  },
+  {
+    "year": "2019",
+    "total": 2799,
+    "Metro Manila": 976,
+    "Luzon": 1416,
+    "Visayas": 260,
+    "Mindanao": 147,
+    "Others": 0
+  }
+]

@@ -6,9 +6,10 @@ import {
   Switch,
   Route,
 } from "react-router-dom";
-import {StackedColumnChart} from "./components/StackedColumnChart";
+import { Overall } from './pages/Overall';
+import { Retail } from './pages/Retail';
 
-const theme = {
+export const theme = {
   color: {
     white: '#FFFFFF',
     primary: '#323232'
@@ -22,10 +23,10 @@ function App() {
         <Header />
         <Switch>
           <Route exact={true} path="/">
-            <StackedColumnChart uniqueId={'test'} />
+            <Overall />
           </Route>
           <Route exact={true} path="/retail">
-            retail
+            <Retail />
           </Route>
           <Route exact={true} path="/banking">
             banking

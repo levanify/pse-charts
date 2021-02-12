@@ -1,8 +1,5 @@
 import React from 'react'
 import * as Style from "./Header.styles";
-import {
-  Link
-} from "react-router-dom";
 
 export const Header = () => {
   return (
