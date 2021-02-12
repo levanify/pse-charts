@@ -26,13 +26,19 @@ export const Header = () => {
         </Style.MarketDetailItem>
       </Style.MarketDetails>
       <Style.Sections>
-        <Style.SectionLink to="/">
+        <Style.SectionLink exact to="/" activeStyle={{
+          textDecoration: "underline",
+        }}>
           Overall
         </Style.SectionLink>
-        <Style.SectionLink to="/retail">
+        <Style.SectionLink exact to="/retail" activeStyle={{
+          textDecoration: "underline",
+        }}>
           Retail Stores
         </Style.SectionLink>
-        <Style.SectionLink to="/banking">
+        <Style.SectionLink exact to="/banking" activeStyle={{
+          textDecoration: "underline",
+        }}>
           Banking Operations
         </Style.SectionLink>
       </Style.Sections>

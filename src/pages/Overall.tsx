@@ -9,7 +9,7 @@ export const Overall = () => {
     <Container>
       <StackedColumnChart
         uniqueId={'overall-net-income'}
-        title={'NET INCOME'}
+        title={'Net Income'}
         data={OverallNetIncome}
         xAxisLabel={'year'}
         yAxisLabels={{
@@ -20,7 +20,7 @@ export const Overall = () => {
       />
       <StackedColumnChart
         uniqueId={'overall-revenue'}
-        title={'REVENUE'}
+        title={'Revenue'}
         data={OverallRevenue}
         xAxisLabel={'year'}
         yAxisLabels={{

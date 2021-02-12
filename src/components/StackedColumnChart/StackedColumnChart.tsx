@@ -5,6 +5,7 @@ import am4themes_animated from '@amcharts/amcharts4/themes/animated';
 import styled from 'styled-components';
 import {Color} from "@amcharts/amcharts4/core";
 import { theme } from '../../App';
+import {ColumnSeries, XYSeries} from "@amcharts/amcharts4/charts";
 
 am4core.useTheme(am4themes_animated);
 
@@ -21,7 +22,6 @@ export const StackedColumnChart = ({ uniqueId, title, data, xAxisLabel, yAxisLab
   const chartRef: { current: am4charts.XYChart | null } = React.useRef(null);
 
   React.useEffect(() => {
-    console.log('drawing chart')
     // Create chart instance
     let chart = am4core.create(uniqueId, am4charts.XYChart);
 
@@ -68,15 +68,7 @@ export const StackedColumnChart = ({ uniqueId, title, data, xAxisLabel, yAxisLab
       series.dataFields.categoryX = xAxisLabel;
       series.sequencedInterpolation = true;
 
-      // Set up tooltip
-      series.adapter.add("tooltipText", function(ev) {
-        let text = "[bold]{categoryX}[/]\n" +
-          "[bold]Total[/]: {total} \n";
-        chart.series.each(function(item) {
-          text += "[" + (item.stroke as Color).hex + "]●[/] " + item.name + ": {" + item.dataFields.valueY + "}\n";
-        });
-        return text;
-      });
+      series.columns.template.tooltipY = 0;
 
       if (series.tooltip) {
         // Prevent cross-fading of tooltips
@@ -104,10 +96,16 @@ export const StackedColumnChart = ({ uniqueId, title, data, xAxisLabel, yAxisLab
     Object.entries(yAxisLabels).map(([key, value]) => {
       createSeries(key, value)
     })
-    chart.cursor = new am4charts.XYCursor();
-    chart.cursor.lineX.disabled = true;
-    chart.cursor.lineY.disabled = true;
-    chart.cursor.maxTooltipDistance = 0;
+
+    let text = "[bold]{categoryX}[/]\n" +
+      "[bold]Total[/]: {total} \n";
+    chart.series.each(function(item: XYSeries) {
+      text += "[" + (item.stroke as Color).hex + "]●[/] " + item.name + ": {" + item.dataFields.valueY + "}\n";
+    });
+
+    chart.series.each(function(item: XYSeries) {
+      (item as ColumnSeries).columns.template.tooltipText = text
+    });
 
     // Legend
     chart.legend = new am4charts.Legend();

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import {
-  Link
+  NavLink
 } from "react-router-dom";
 
 export const MarketDetailValue = styled.div`
@@ -44,7 +44,7 @@ export const Sections = styled.div`
   overflow: scroll;
 `;
 
-export const SectionLink = styled(Link)`
+export const SectionLink = styled(NavLink)`
   flex-shrink: 0;
   margin: 1rem;
   text-decoration: none;
