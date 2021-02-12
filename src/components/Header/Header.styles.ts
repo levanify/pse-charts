@@ -1,4 +1,7 @@
 import styled from "styled-components";
+import {
+  Link
+} from "react-router-dom";
 
 export const MarketDetailValue = styled.div`
   font-weight: bold;
@@ -41,7 +44,18 @@ export const Sections = styled.div`
   overflow: scroll;
 `;
 
-export const Section = styled.div`
+export const SectionLink = styled(Link)`
   flex-shrink: 0;
   margin: 1rem;
+  text-decoration: none;
+  &:link,
+  &:visited,
+  &:hover,
+  &:active,
+  &:focus {
+    color: ${props => props.theme.color.white};
+    text-decoration: none;
+    font-weight: normal;
+    user-select: none;
+  }
 `;
