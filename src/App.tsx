@@ -5,8 +5,8 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
 } from "react-router-dom";
+import {StackedColumnChart} from "./components/StackedColumnChart";
 
 const theme = {
   color: {
@@ -22,7 +22,7 @@ function App() {
         <Header />
         <Switch>
           <Route exact={true} path="/">
-            overall
+            <StackedColumnChart uniqueId={'test'} />
           </Route>
           <Route exact={true} path="/retail">
             retail
