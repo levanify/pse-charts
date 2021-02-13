@@ -1,8 +1,8 @@
-import React from 'react'
-import styled from "styled-components";
-import OverallNetIncome from "../data/OverallNetIncome.json";
-import OverallRevenue from "../data/OverallRevenue.json";
-import {StackedColumnChart} from "../components/StackedColumnChart";
+import React from 'react';
+import styled from 'styled-components';
+import { StackedColumnChart } from '../components/StackedColumnChart';
+import OverallNetIncome from '../data/OverallNetIncome.json';
+import OverallRevenue from '../data/OverallRevenue.json';
 
 export const Overall = () => {
   return (
@@ -13,9 +13,9 @@ export const Overall = () => {
         data={OverallNetIncome}
         xAxisLabel={'year'}
         yAxisLabels={{
-          "retail": "Retail",
-          "banking": "Banking",
-          "property": "Property",
+          retail: 'Retail',
+          banking: 'Banking',
+          property: 'Property',
         }}
       />
       <StackedColumnChart
@@ -24,14 +24,14 @@ export const Overall = () => {
         data={OverallRevenue}
         xAxisLabel={'year'}
         yAxisLabels={{
-          "retail": "Retail",
-          "banking": "Banking",
-          "property": "Property",
+          retail: 'Retail',
+          banking: 'Banking',
+          property: 'Property',
         }}
       />
     </Container>
-  )
-}
+  );
+};
 
 export const Container = styled.div`
   max-width: 800px;

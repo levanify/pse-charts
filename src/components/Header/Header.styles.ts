@@ -1,7 +1,5 @@
-import styled from "styled-components";
-import {
-  NavLink
-} from "react-router-dom";
+import { NavLink } from 'react-router-dom';
+import styled from 'styled-components';
 
 export const MarketDetailValue = styled.div`
   font-weight: bold;

@@ -1,1 +1,1 @@
-export * from './StackedColumnChart'
+export * from './StackedColumnChart';

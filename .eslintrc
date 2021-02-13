@@ -1,0 +1,58 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    },
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
+  },
+  "extends": ["eslint:recommended", "eslint-config-prettier", "plugin:react/recommended"],
+  "env": {
+    "es6": true,
+    "jest": true,
+    "browser": true,
+    "commonjs": true,
+    "node": true
+  },
+  "plugins": ["@typescript-eslint", "react", "react-hooks", "import"],
+  "rules": {
+    "no-console": "error",
+    "no-alert": "error",
+    "no-unused-vars": "error",
+    "@typescript-eslint/no-unused-vars": ["error", { "args": "none" }],
+    "max-depth": ["error", 3],
+    "no-magic-numbers": ["off"],
+    "import/order": [
+      "error",
+      {
+        "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
+        "alphabetize": {
+          "order": "asc"
+        }
+      }
+    ],
+    "arrow-parens": ["off"],
+    "import/no-extraneous-dependencies": "error",
+    "import/no-unresolved": "error",
+    "prefer-const": "error",
+    "react/jsx-handler-names": ["error", { "eventHandlerPrefix": "handle", "eventHandlerPropPrefix": "on" }],
+    "react/sort-comp": [
+      "error",
+      { "order": ["type-annotations", "static-methods", "lifecycle", "/^handle.+$/", "everything-else", "render"] }
+    ],
+    "react/prefer-stateless-function": "error",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "react/prop-types": "off"
+  }
+}

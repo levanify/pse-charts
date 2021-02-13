@@ -1,11 +1,11 @@
-import React from 'react'
 import * as am4charts from '@amcharts/amcharts4/charts';
+import { ColumnSeries, XYSeries } from '@amcharts/amcharts4/charts';
 import * as am4core from '@amcharts/amcharts4/core';
+import { Color } from '@amcharts/amcharts4/core';
 import am4themes_animated from '@amcharts/amcharts4/themes/animated';
+import React from 'react';
 import styled from 'styled-components';
-import {Color} from "@amcharts/amcharts4/core";
 import { theme } from '../../App';
-import {ColumnSeries, XYSeries} from "@amcharts/amcharts4/charts";
 
 am4core.useTheme(am4themes_animated);
 
@@ -18,51 +18,57 @@ type Props = {
   format?: string;
 };
 
-export const StackedColumnChart = ({ uniqueId, title, data, xAxisLabel, yAxisLabels, format = "#.0a" }: Props) => {
+export const StackedColumnChart = ({ uniqueId, title, data, xAxisLabel, yAxisLabels, format = '#.0a' }: Props) => {
   const chartRef: { current: am4charts.XYChart | null } = React.useRef(null);
 
   React.useEffect(() => {
     // Create chart instance
-    let chart = am4core.create(uniqueId, am4charts.XYChart);
+    const chart = am4core.create(uniqueId, am4charts.XYChart);
+    chart.maskBullets = false;
 
-    let chartTitle = chart.titles.create();
+    const chartTitle = chart.titles.create();
     chartTitle.text = title;
     chartTitle.fontSize = '1.2rem';
     chartTitle.fontWeight = 'bold';
-    chartTitle.fill = am4core.color(theme.color.primary)
+    chartTitle.fill = am4core.color(theme.color.primary);
 
     // Add data
-    chart.data = data
+    const dataWithTotal = data.map((d: any) => {
+      return { ...d, none: 0 };
+    });
+    chart.data = dataWithTotal;
 
     // Create axes
-    let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+    const categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
     categoryAxis.dataFields.category = xAxisLabel;
     categoryAxis.renderer.grid.template.disabled = true;
     categoryAxis.cursorTooltipEnabled = false;
     categoryAxis.renderer.minGridDistance = 0;
 
     // Config x-axis label
-    let label = categoryAxis.renderer.labels.template;
+    const label = categoryAxis.renderer.labels.template;
     label.wrap = true;
     label.maxWidth = 120;
 
-    let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+    const valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
     valueAxis.renderer.inside = true;
     valueAxis.renderer.labels.template.disabled = true;
     valueAxis.renderer.grid.template.disabled = true;
     valueAxis.min = 0;
     valueAxis.cursorTooltipEnabled = false;
     valueAxis.numberFormatter.bigNumberPrefixes = [
-      { "number": 1e+3, "suffix": "K" },
-      { "number": 1e+6, "suffix": "M" },
-      { "number": 1e+9, "suffix": "B" }
+      { number: 1e3, suffix: 'K' },
+      { number: 1e6, suffix: 'M' },
+      { number: 1e9, suffix: 'B' },
     ];
     valueAxis.numberFormatter.numberFormat = format;
+    valueAxis.extraMax = 0.1;
+    valueAxis.calculateTotals = true;
 
     // Create series
     function createSeries(field: string, name: string) {
       // Set up series
-      let series = chart.series.push(new am4charts.ColumnSeries());
+      const series = chart.series.push(new am4charts.ColumnSeries());
       series.name = name;
       series.dataFields.valueY = field;
       series.dataFields.categoryX = xAxisLabel;
@@ -75,14 +81,14 @@ export const StackedColumnChart = ({ uniqueId, title, data, xAxisLabel, yAxisLab
         series.tooltip.defaultState.transitionDuration = 0;
         series.tooltip.hiddenState.transitionDuration = 0;
         series.tooltip.getFillFromObject = false;
-        series.tooltip.background.fill = am4core.color("#fff");
-        series.tooltip.label.fill = am4core.color("#00");
+        series.tooltip.background.fill = am4core.color('#fff');
+        series.tooltip.label.fill = am4core.color('#00');
       }
 
       // Add label
-      let labelBullet = series.bullets.push(new am4charts.LabelBullet());
-      labelBullet.label.text = "{valueY}";
-      labelBullet.fontSize = '0.7rem'
+      const labelBullet = series.bullets.push(new am4charts.LabelBullet());
+      labelBullet.label.text = '{valueY}';
+      labelBullet.fontSize = '0.7rem';
       labelBullet.locationY = 0.5;
       labelBullet.label.hideOversized = true;
 
@@ -94,18 +100,36 @@ export const StackedColumnChart = ({ uniqueId, title, data, xAxisLabel, yAxisLab
 
     // eslint-disable-next-line array-callback-return
     Object.entries(yAxisLabels).map(([key, value]) => {
-      createSeries(key, value)
-    })
-
-    let text = "[bold]{categoryX}[/]\n" +
-      "[bold]Total[/]: {total} \n";
-    chart.series.each(function(item: XYSeries) {
-      text += "[" + (item.stroke as Color).hex + "]●[/] " + item.name + ": {" + item.dataFields.valueY + "}\n";
+      createSeries(key, value);
     });
 
-    chart.series.each(function(item: XYSeries) {
-      (item as ColumnSeries).columns.template.tooltipText = text
+    let text = '[bold]{categoryX}[/]\n';
+    // "[bold]Total[/]: {total} \n";
+    chart.series.each(function (item: XYSeries) {
+      text += '[' + (item.stroke as Color).hex + ']●[/] ' + item.name + ': {' + item.dataFields.valueY + '}\n';
     });
+
+    chart.series.each(function (item: XYSeries) {
+      (item as ColumnSeries).columns.template.tooltipText = text;
+    });
+
+    // Create series for total
+    const totalSeries = chart.series.push(new am4charts.ColumnSeries());
+    totalSeries.dataFields.valueY = 'none';
+    totalSeries.dataFields.categoryX = 'year';
+    totalSeries.stacked = true;
+    totalSeries.hiddenInLegend = true;
+    totalSeries.columns.template.strokeOpacity = 0;
+
+    const totalBullet = totalSeries.bullets.push(new am4charts.LabelBullet());
+    totalBullet.dy = -20;
+    totalBullet.showOnInit = false;
+    totalBullet.label.text = '{valueY.total}';
+    totalBullet.label.hideOversized = false;
+    totalBullet.label.fontSize = '0.8rem';
+    totalBullet.label.background.fill = totalSeries.stroke;
+    totalBullet.label.background.fillOpacity = 0.2;
+    totalBullet.label.padding(5, 10, 5, 10);
 
     // Legend
     chart.legend = new am4charts.Legend();
@@ -124,7 +148,7 @@ export const StackedColumnChart = ({ uniqueId, title, data, xAxisLabel, yAxisLab
       <Attribution />
     </Chart>
   );
-}
+};
 
 const Chart = styled.div`
   position: relative;

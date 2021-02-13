@@ -1,20 +1,16 @@
 import React from 'react';
-import {ThemeProvider} from "styled-components";
-import {Header} from "./components/Header";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { ThemeProvider } from 'styled-components';
+import { Header } from './components/Header';
 import { Overall } from './pages/Overall';
 import { Retail } from './pages/Retail';
 
 export const theme = {
   color: {
     white: '#FFFFFF',
-    primary: '#323232'
-  }
-}
+    primary: '#323232',
+  },
+};
 
 function App() {
   return (
@@ -31,9 +27,7 @@ function App() {
           <Route exact={true} path="/banking">
             banking
           </Route>
-          <Route>
-            Not found route
-          </Route>
+          <Route>Not found route</Route>
         </Switch>
       </Router>
     </ThemeProvider>
